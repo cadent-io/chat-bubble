@@ -2,7 +2,7 @@
   "name": "chat-bubble",
   "version": "1.3.0-rc.2",
   "description": "Simple chatbot UI for Web with JSON scripting. Zero dependencies.",
-  "main": "dist/bubble.min.js",
+  "main": "component/Bubbles.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:cadent-io/chat-bubble.git"
