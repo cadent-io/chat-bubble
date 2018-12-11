@@ -22,7 +22,7 @@
   "license": "MIT",
   "files": [
     "dist/*",
-    "components/*",
+    "component/*",
     "*.md"
   ],
   "bugs": {
