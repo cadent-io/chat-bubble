@@ -1,2 +1,3 @@
 # Ignore tunneling tool
 /ngrok
+/node_modules
