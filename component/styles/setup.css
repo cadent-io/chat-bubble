@@ -1,6 +1,6 @@
 /* setup container styles */
 .bubble-container {
-	background: #dcdde0;
+	background: #ffffff;
 	height: 520px;
 	max-width: 750px;
 	width: 100%;
@@ -29,4 +29,11 @@ h1 {
 body {
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	margin: 0;
+}
+
+img {
+	border-radius: 100%;
+  width: 35px;
+	height: 35px;
+	flex-grow: 0 !important;
 }

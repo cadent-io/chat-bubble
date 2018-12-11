@@ -9,11 +9,219 @@ function Bubbles(container, self, options) {
   recallInteractions = options.recallInteractions || 0 // number of interactions to be remembered and brought back upon restart
   inputCallbackFn = options.inputCallbackFn || false // should we display an input field?
 
+  // Default avatar's
+  defaultUserImage = "https://i.imgur.com/BPaFEMX.png"
+  defaultBotImage = "https://i.imgur.com/BPaFEMX.png"
+
   var standingAnswer = "ice" // remember where to restart convo if interrupted
 
   var _convo = {} // local memory for conversation JSON object
-  //--> NOTE that this object is only assigned once, per session and does not change for this
+  // --> NOTE that this object is only assigned once, per session and does not change for this
   // 		constructor name during open session.
+
+  const AdaptiveCards = require('adaptivecards')
+  // So adaptive cards can process markdown
+  window["markdownit"] = require('markdown-it')
+   
+
+  // AdaptiveCard Microsoft library init...
+  this.adaptiveCard = new AdaptiveCards.AdaptiveCard()
+  this.actions = {}
+
+  // Default config for AdaptiveCards
+  const config = {
+    spacing: {
+      small: 3,
+      default: 8,
+      medium: 20,
+      large: 30,
+      extraLarge: 40,
+      padding: 10
+    },
+    separator: {
+      lineThickness: 1,
+      lineColor: "#EEEEEE"
+    },
+    supportsInteractivity: true,
+    fontFamily: "sans-serif",
+    fontSizes: {
+      small: 12,
+      default: 14,
+      medium: 17,
+      large: 21,
+      extraLarge: 26
+    },
+    fontWeights: {
+      lighter: 200,
+      default: 400,
+      bolder: 600
+    },
+    containerStyles: {
+      default: {
+        backgroundColor: "#F1F1F1",
+        foregroundColors: {
+          default: {
+            default: "#333333",
+            subtle: "#EE333333"
+          },
+          accent: {
+            default: "#2E89FC",
+            subtle: "#882E89FC"
+          },
+          attention: {
+            default: "#FF0000",
+            subtle: "#DDFF0000"
+          },
+          good: {
+            default: "#54a254",
+            subtle: "#DD54a254"
+          },
+          warning: {
+            default: "#c3ab23",
+            subtle: "#DDc3ab23"
+          }
+        }
+      },
+      emphasis: {
+        backgroundColor: "#08000000",
+        foregroundColors: {
+          default: {
+            default: "#333333",
+            subtle: "#EE333333"
+          },
+          accent: {
+            default: "#2E89FC",
+            subtle: "#882E89FC"
+          },
+          attention: {
+            default: "#FF0000",
+            subtle: "#DDFF0000"
+          },
+          good: {
+            default: "#54a254",
+            subtle: "#DD54a254"
+          },
+          warning: {
+            default: "#c3ab23",
+            subtle: "#DDc3ab23"
+          }
+        }
+      }
+    },
+    imageSizes: {
+      small: 40,
+      medium: 80,
+      large: 160
+    },
+    actions: {
+      maxActions: 5,
+      spacing: AdaptiveCards.Spacing.Default,
+      buttonSpacing: 10,
+      showCard: {
+        actionMode: AdaptiveCards.ShowCardActionMode.Inline,
+        inlineTopMargin: 16
+      },
+      actionsOrientation: AdaptiveCards.Orientation.Horizontal,
+      actionAlignment: AdaptiveCards.ActionAlignment.Left
+    },
+    adaptiveCard: {
+      allowCustomStyle: false
+    },
+    imageSet: {
+      imageSize: AdaptiveCards.Size.Medium,
+      maxImageHeight: 100
+    },
+    factSet: {
+      title: {
+        color: AdaptiveCards.TextColor.Default,
+        size: AdaptiveCards.TextSize.Default,
+        isSubtle: false,
+        weight: AdaptiveCards.TextWeight.Bolder,
+        wrap: true,
+        maxWidth: 150
+      },
+      value: {
+        color: AdaptiveCards.TextColor.Default,
+        size: AdaptiveCards.TextSize.Default,
+        isSubtle: false,
+        weight: AdaptiveCards.TextWeight.Default,
+        wrap: true
+      },
+      spacing: 10
+    }
+  }
+
+  this._scrollBubbles = function() {
+    const containerHeight = container.offsetHeight
+    const scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
+    const scrollHop = scrollDifference / 200
+    for(var i = 1; i <= scrollDifference / scrollHop; i++) {
+      ; (function() {
+        setTimeout(function() {
+          bubbleWrap.scrollHeight - bubbleWrap.scrollTop > containerHeight
+          ?
+            (bubbleWrap.scrollTop = bubbleWrap.scrollTop + scrollHop)
+          :
+            false
+        }, i * 5)
+      })()
+    }
+  }
+
+  this.init = function(func, conf = config) {
+    this.adaptiveCard.hostConfig = new AdaptiveCards.HostConfig(conf)
+    this.adaptiveCard.processMarkdown = function(text) { return MarkdownIt.render(text); }
+    bubbleWrap = document.getElementsByClassName("bubble-wrap")[0]
+    bubbleTyping = document.getElementsByClassName("bubble-typing")[0]
+    container = document.getElementsByClassName("bubble-container")[0]
+    this.adaptiveCard.onExecuteAction = func
+  }
+
+  this.botSaysAndGetReply = function(text, reply) {
+    this.talk({ ice: { says: text, reply } })
+  }
+
+  var getDateDisplay =  function() {
+    var hours = new Date().getHours()
+    var minutes = new Date().getMinutes()
+    hours = hours > 9 ? hours : "0" + hours 
+    minutes = minutes > 9 ? minutes : "0" + minutes 
+    return hours + ":" + minutes
+  }
+
+  this.cardTalk = function(card) {
+    const self = this
+    bubbleTyping.classList.remove("imagine")
+    setTimeout(function() {
+      bubbleTyping.classList.add("imagine")
+      const bubbleWrapper = document.createElement("div")
+      bubbleWrapper.className = "d-flex flex-start "
+      const bubble = document.createElement("div")
+      const bubbleContent = document.createElement("span")
+      // Create a time stamp div
+      const time = document.createElement("span")
+      // Create an avatar div to go along with the text bubble
+      const avatarDiv = document.createElement("div")
+      const avatar = document.createElement("img")
+      avatar.src = defaultBotImage
+      avatarDiv.className = "mr-2 mt-2 align-center "
+      avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important"
+      time.textContent = getDateDisplay();
+      time.className = "mt-1"
+      avatarDiv.appendChild(avatar)
+      avatarDiv.appendChild(time)
+      bubble.className = "bubble say"
+      bubbleContent.className = "webChatInnerContainer"
+      self.adaptiveCard.parse(card)
+      const renderedCard = self.adaptiveCard.render()
+      bubbleContent.appendChild(renderedCard)
+      bubble.appendChild(bubbleContent)
+      bubbleWrapper.appendChild(avatarDiv)
+      bubbleWrapper.appendChild(bubble)
+      bubbleWrap.insertBefore(bubbleWrapper, bubbleTyping)
+      self._scrollBubbles()
+    }, 800)
+  }
 
   // local storage for recalling conversations upon restart
   var localStorageCheck = function() {
@@ -67,12 +275,13 @@ function Bubbles(container, self, options) {
 
   // set up the stage
   container.classList.add("bubble-container")
-  var bubbleWrap = document.createElement("div")
+  let bubbleWrap = document.createElement("div")
   bubbleWrap.className = "bubble-wrap"
   container.appendChild(bubbleWrap)
 
   // install user input textfield
   this.typeInput = function(callbackFn) {
+    const self = this
     var inputWrap = document.createElement("div")
     inputWrap.className = "input-wrap"
     var inputText = document.createElement("textarea")
@@ -112,7 +321,7 @@ function Bubbles(container, self, options) {
   inputCallbackFn ? this.typeInput(inputCallbackFn) : false
 
   // init typing bubble
-  var bubbleTyping = document.createElement("div")
+  bubbleTyping = document.createElement("div")
   bubbleTyping.className = "bubble-typing imagine"
   for (dots = 0; dots < 3; dots++) {
     var dot = document.createElement("div")
@@ -125,7 +334,6 @@ function Bubbles(container, self, options) {
   this.talk = function(convo, here) {
     // all further .talk() calls will append the conversation with additional blocks defined in convo parameter
     _convo = Object.assign(_convo, convo) // POLYFILL REQUIRED FOR OLDER BROWSERS
-
     this.reply(_convo[here])
     here ? (standingAnswer = here) : false
   }
@@ -158,12 +366,14 @@ function Bubbles(container, self, options) {
     orderBubbles(turn.says, function() {
       bubbleTyping.classList.remove("imagine")
       questionsHTML !== ""
-        ? addBubble(questionsHTML, function() {}, "reply")
+        ? this.addBubble(questionsHTML, function() {}, "reply")
         : bubbleTyping.classList.add("imagine")
     })
   }
+
   // navigate "answers"
   this.answer = function(key, content) {
+    
     var func = function(key) {
       typeof window[key] === "function" ? window[key]() : false
     }
@@ -203,7 +413,7 @@ function Bubbles(container, self, options) {
     ) {
       ;(function(callback, index) {
         start = function() {
-          addBubble(q[index], callback)
+          this.addBubble(q[index], callback)
         }
       })(start, nextCallback)
     }
@@ -212,7 +422,8 @@ function Bubbles(container, self, options) {
 
   // create a bubble
   var bubbleQueue = false
-  var addBubble = function(say, posted, reply, live) {
+  addBubble = function(say, posted, reply, live) {
+    const self = this
     reply = typeof reply !== "undefined" ? reply : ""
     live = typeof live !== "undefined" ? live : true // bubbles that are not "live" are not animated and displayed differently
     var animationTime = live ? this.animationTime : 0
@@ -220,10 +431,22 @@ function Bubbles(container, self, options) {
     // create bubble element
     var bubble = document.createElement("div")
     var bubbleContent = document.createElement("span")
-    bubble.className = "bubble imagine " + (!live ? " history " : "") + reply
+    // Create the necessary timestamp and avatar div
+    var avatarWrap = document.createElement("div")
+    var avatar = document.createElement("img")
+    var time = document.createElement("span")
+    avatarWrap.className = "avatar-content d-flex align-center ml-2 mt-2"
+    avatarWrap.style = "flex-direction: column;"
+    avatar.src = defaultUserImage
+    avatar.className = "avatar"
+    time.textContent = getDateDisplay()
+    avatarWrap.appendChild(avatar)
+    avatarWrap.appendChild(time)
+    bubble.className = "bubble imagine d-flex align-center " + (!live ? " history " : "") + reply
     bubbleContent.className = "bubble-content"
     bubbleContent.innerHTML = say
     bubble.appendChild(bubbleContent)
+    bubble.appendChild(avatarWrap)
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     // answer picker styles
     if (reply !== "") {
@@ -271,7 +494,6 @@ function Bubbles(container, self, options) {
       // save the interaction
       interactionsSave(say, reply)
       !iceBreaker && interactionsSaveCommit() // save point
-
       // animate scrolling
       containerHeight = container.offsetHeight
       scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
@@ -293,14 +515,25 @@ function Bubbles(container, self, options) {
 
   // recall previous interactions
   for (var i = 0; i < interactionsHistory.length; i++) {
-    addBubble(
+    this.addBubble(
       interactionsHistory[i].say,
       function() {},
       interactionsHistory[i].reply,
       false
     )
   }
+
+  // Functions to change the user/bot image
+
+  this.changeUserImg = function(image) {
+    defaultUserImage = image
+  }
+  this.changeBotImg = function(image)  {
+    defaultBotImage = image
+  }
 }
+
+
 
 // below functions are specifically for WebPack-type project that work with import()
 
