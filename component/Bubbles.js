@@ -205,11 +205,12 @@ function Bubbles(container, self, options) {
       const avatarDiv = document.createElement("div")
       const avatar = document.createElement("img")
       avatar.src = defaultBotImage
-      avatarDiv.className = "mr-2 mt-2 align-center "
       avatar.className = "chat-bubbles-avatar"
+      avatarDiv.className = "mr-2 mt-2 align-center "
       avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important"
       time.textContent = getDateDisplay();
       time.className = "mt-1"
+      time.style="word-break: normal;"
       avatarDiv.appendChild(avatar)
       avatarDiv.appendChild(time)
       bubble.className = "bubble say"
@@ -441,9 +442,10 @@ function Bubbles(container, self, options) {
     avatarWrap.style = "flex-direction: column; flex-grow: 0 !important;"
     avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
+    time.style="word-break: normal;"
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
-    bubble.className = "bubble imagine d-flex align-center " + (!live ? " history " : "") + reply
+    bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") + reply
     bubbleContent.style = "flex-grow: 0 !important; "
     bubbleContent.className = "bubble-content say "
     bubbleContent.innerHTML = say
