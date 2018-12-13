@@ -206,6 +206,7 @@ function Bubbles(container, self, options) {
       const avatar = document.createElement("img")
       avatar.src = defaultBotImage
       avatarDiv.className = "mr-2 mt-2 align-center "
+      avatar.className = "chat-bubbles-avatar"
       avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important"
       time.textContent = getDateDisplay();
       time.className = "mt-1"
@@ -438,7 +439,7 @@ function Bubbles(container, self, options) {
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center "
     avatarWrap.style = "flex-direction: column; flex-grow: 0 !important;"
-    avatar.className = "avatar"
+    avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
