@@ -4,7 +4,7 @@ function Bubbles(container, self, options) {
   options = typeof options !== "undefined" ? options : {}
   animationTime = options.animationTime || 200 // how long it takes to animate chat bubble, also set in CSS
   typeSpeed = options.typeSpeed || 5 // delay per character, to simulate the machine "typing"
-  widerBy = options.widerBy || 2 // add a little extra width to bubbles to make sure they don't break
+  widerBy = options.widerBy || 10 // add a little extra width to bubbles to make sure they don't break
   sidePadding = options.sidePadding || 6 // padding on both sides of chat bubbles
   recallInteractions = options.recallInteractions || 0 // number of interactions to be remembered and brought back upon restart
   inputCallbackFn = options.inputCallbackFn || false // should we display an input field?
@@ -195,7 +195,8 @@ function Bubbles(container, self, options) {
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
       const bubbleWrapper = document.createElement("div")
-      bubbleWrapper.className = "d-flex flex-start "
+      bubbleWrapper.className = "bubble d-flex flex-start "
+      bubbleWrapper.style = "background: transparent; "
       const bubble = document.createElement("div")
       const bubbleContent = document.createElement("span")
       // Create a time stamp div
@@ -205,6 +206,7 @@ function Bubbles(container, self, options) {
       const avatar = document.createElement("img")
       avatar.src = defaultBotImage
       avatarDiv.className = "mr-2 mt-2 align-center "
+      avatar.className = "chat-bubbles-avatar"
       avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important"
       time.textContent = getDateDisplay();
       time.className = "mt-1"
@@ -435,21 +437,25 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     var time = document.createElement("span")
-    avatarWrap.className = "avatar-content d-flex align-center ml-2 mt-2"
-    avatarWrap.style = "flex-direction: column;"
-    avatar.src = defaultUserImage
-    avatar.className = "avatar"
+    avatarWrap.className = "avatar-content d-flex align-center "
+    avatarWrap.style = "flex-direction: column; flex-grow: 0 !important;"
+    avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
     bubble.className = "bubble imagine d-flex align-center " + (!live ? " history " : "") + reply
-    bubbleContent.className = "bubble-content"
+    bubbleContent.style = "flex-grow: 0 !important; "
+    bubbleContent.className = "bubble-content say "
     bubbleContent.innerHTML = say
-    bubble.appendChild(bubbleContent)
-    bubble.appendChild(avatarWrap)
+    
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     // answer picker styles
     if (reply !== "") {
+      avatar.src = defaultUserImage
+      avatarWrap.className += "ml-2 mt-2"
+      bubbleContent.style = " padding: 0; width: 100%;"
+      bubble.appendChild(bubbleContent)
+      bubble.appendChild(avatarWrap)
       var bubbleButtons = bubbleContent.querySelectorAll(".bubble-button")
       for (var z = 0; z < bubbleButtons.length; z++) {
         ;(function(el) {
@@ -467,6 +473,13 @@ function Bubbles(container, self, options) {
         }
         this.classList.add("bubble-picked")
       })
+    } else {
+      avatar.src = defaultBotImage
+      avatarWrap.className += "mr-2 mt-2"
+      bubbleContent.className += "bubble"
+      bubble.style = "background: transparent !important;"
+      bubble.appendChild(avatarWrap)
+      bubble.appendChild(bubbleContent)
     }
     // time, size & animate
     wait = live ? animationTime * 2 : 0
@@ -483,7 +496,7 @@ function Bubbles(container, self, options) {
     }, wait - animationTime * 2)
     bubbleQueue = setTimeout(function() {
       bubble.classList.remove("imagine")
-      var bubbleWidthCalc = bubbleContent.offsetWidth + widerBy + "px"
+      var bubbleWidthCalc = bubbleContent.offsetWidth + avatar.offsetWidth + widerBy + "px"
       bubble.style.width = reply == "" ? bubbleWidthCalc : ""
       bubble.style.width = say.includes("<img src=")
         ? "50%"
