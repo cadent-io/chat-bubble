@@ -206,8 +206,8 @@ function Bubbles(container, self, options) {
       const avatar = document.createElement("img")
       avatar.src = defaultBotImage
       avatar.className = "chat-bubbles-avatar"
-      avatarDiv.className = "mr-2 mt-2 align-center "
-      avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important"
+      avatarDiv.className = "mt-2 align-center "
+      avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important; margin-right: 8px"
       time.textContent = getDateDisplay();
       time.className = "mt-1"
       time.style="word-break: normal;"
@@ -438,8 +438,8 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     var time = document.createElement("span")
-    avatarWrap.className = "avatar-content d-flex align-center "
-    avatarWrap.style = "flex-direction: column; flex-grow: 0 !important;"
+    avatarWrap.className = "avatar-content d-flex align-center mt-2 "
+    avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
     time.style="word-break: normal;"
@@ -454,7 +454,7 @@ function Bubbles(container, self, options) {
     // answer picker styles
     if (reply !== "") {
       avatar.src = defaultUserImage
-      avatarWrap.className += "ml-2 mt-2"
+      avatarWrap.style.marginLeft = "8px"
       bubbleContent.style = " padding: 0; width: 100%;"
       bubble.appendChild(bubbleContent)
       bubble.appendChild(avatarWrap)
@@ -477,9 +477,9 @@ function Bubbles(container, self, options) {
       })
     } else {
       avatar.src = defaultBotImage
-      avatarWrap.className += "mr-2 mt-2"
+      avatarWrap.style.marginRight = "8px"
       bubbleContent.className += "bubble"
-      bubble.style = "background: transparent !important;"
+      bubble.style = " background: transparent !important;"
       bubble.appendChild(avatarWrap)
       bubble.appendChild(bubbleContent)
     }
