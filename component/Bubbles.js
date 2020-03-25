@@ -184,7 +184,21 @@ function Bubbles(container, self, options) {
     bubble.className = "bubble reply say bubble-picked"
     bubbleContent.className = "bubble-content"
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
+    const time = document.createElement("span")
+    // Create an avatar div to go along with the text bubble
+    const avatarDiv = document.createElement("div")
+    const avatar = document.createElement("img")
+    avatar.src = defaultBotImage
+    avatar.className = "chat-bubbles-avatar"
+    avatarDiv.className = "mt-2 align-center "
+    avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important; margin-right: 8px"
+    time.textContent = getDateDisplay();
+    time.className = "mt-1"
+    time.style="word-break: normal;"
+    avatarDiv.appendChild(avatar)
+    avatarDiv.appendChild(time)
     bubble.appendChild(bubbleContent)
+    bubble.appendChild(avatarDiv)
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
     scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
