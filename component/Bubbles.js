@@ -184,7 +184,7 @@ function Bubbles(container, self, options) {
     live = typeof live !== "undefined" ? live : true // bubbles that are not "live" are not animated and displayed differently
     var animationTime = live ? this.animationTime : 0
     var typeSpeed = live ? this.typeSpeed : 0
-    bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") + reply
+    bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") 
     bubbleContent.style = "flex-grow: 0 !important; "
     bubbleContent.className = "bubble-content say "
     bubbleContent.innerHTML = text
