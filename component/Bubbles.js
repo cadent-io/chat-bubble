@@ -177,6 +177,31 @@ function Bubbles(container, self, options) {
     this.adaptiveCard.onExecuteAction = func
   }
 
+  this.typeText = function (text) {
+    var self = this;
+    var bubble = document.createElement("div")
+    var bubbleContent = document.createElement("span")
+    bubble.className = "bubble reply say bubble-picked"
+    bubbleContent.className = "bubble-content"
+    bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
+    bubble.appendChild(bubbleContent)
+    this.bubbleWrap.insertBefore(bubble, self.bubbleTyping)
+    containerHeight = self.container.offsetHeight
+    scrollDifference = self.bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop
+    scrollHop = scrollDifference / 200
+    var scrollBubbles = function () {
+        for (var i = 1; i <= scrollDifference / scrollHop; i++) {
+            ; (function () {
+                setTimeout(function () {
+                    self.bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop > containerHeight
+                        ? (self.bubbleWrap.scrollTop = self.bubbleWrap.scrollTop + scrollHop)
+                        : false
+                }, i * 5)
+            })()
+        }
+    }()
+  }
+  
   this.botSaysAndGetReply = function(text, reply) {
     this.talk({ ice: { says: text, reply } })
   }
