@@ -186,15 +186,15 @@ function Bubbles(container, self, options) {
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
     bubble.appendChild(bubbleContent)
     bubbleWrap.insertBefore(bubble, self.bubbleTyping)
-    containerHeight = self.container.offsetHeight
-    scrollDifference = self.bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop
+    containerHeight = container.offsetHeight
+    scrollDifference = bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop
     scrollHop = scrollDifference / 200
     var scrollBubbles = function () {
         for (var i = 1; i <= scrollDifference / scrollHop; i++) {
             ; (function () {
                 setTimeout(function () {
-                    bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop > containerHeight
-                        ? (bubbleWrap.scrollTop = self.bubbleWrap.scrollTop + scrollHop)
+                    bubbleWrap.scrollHeight - bubbleWrap.scrollTop > containerHeight
+                        ? (bubbleWrap.scrollTop = bubbleWrap.scrollTop + scrollHop)
                         : false
                 }, i * 5)
             })()
