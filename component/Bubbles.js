@@ -177,7 +177,7 @@ function Bubbles(container, self, options) {
     this.adaptiveCard.onExecuteAction = func
   }
 
-  this.typeText = function (text) {
+  this.userSats = function (text) {
     var self = this;
     var bubble = document.createElement("div")
     var bubbleContent = document.createElement("span")
@@ -185,7 +185,7 @@ function Bubbles(container, self, options) {
     bubbleContent.className = "bubble-content"
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
     bubble.appendChild(bubbleContent)
-    this.bubbleWrap.insertBefore(bubble, self.bubbleTyping)
+    bubbleWrap.insertBefore(bubble, self.bubbleTyping)
     containerHeight = self.container.offsetHeight
     scrollDifference = self.bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop
     scrollHop = scrollDifference / 200
