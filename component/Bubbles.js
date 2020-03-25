@@ -177,7 +177,7 @@ function Bubbles(container, self, options) {
     this.adaptiveCard.onExecuteAction = func
   }
 
-  this.userSats = function (text) {
+  this.userSays = function (text) {
     var self = this;
     var bubble = document.createElement("div")
     var bubbleContent = document.createElement("span")
@@ -193,8 +193,8 @@ function Bubbles(container, self, options) {
         for (var i = 1; i <= scrollDifference / scrollHop; i++) {
             ; (function () {
                 setTimeout(function () {
-                    self.bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop > containerHeight
-                        ? (self.bubbleWrap.scrollTop = self.bubbleWrap.scrollTop + scrollHop)
+                    bubbleWrap.scrollHeight - self.bubbleWrap.scrollTop > containerHeight
+                        ? (bubbleWrap.scrollTop = self.bubbleWrap.scrollTop + scrollHop)
                         : false
                 }, i * 5)
             })()
