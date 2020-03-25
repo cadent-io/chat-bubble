@@ -184,21 +184,21 @@ function Bubbles(container, self, options) {
     bubble.className = "bubble reply say bubble-picked"
     bubbleContent.className = "bubble-content"
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
-    const time = document.createElement("span")
-    // Create an avatar div to go along with the text bubble
-    const avatarDiv = document.createElement("div")
-    const avatar = document.createElement("img")
-    avatar.src = defaultBotImage
+    var avatarWrap = document.createElement("div")
+    var avatar = document.createElement("img")
+    var time = document.createElement("span")
+    avatarWrap.className = "avatar-content d-flex align-center mt-2 "
+    avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
-    avatarDiv.className = "mt-2 align-center "
-    avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important; margin-right: 8px"
-    time.textContent = getDateDisplay();
-    time.className = "mt-1"
+    time.textContent = getDateDisplay()
     time.style="word-break: normal;"
-    avatarDiv.appendChild(avatar)
-    avatarDiv.appendChild(time)
+    avatarWrap.appendChild(avatar)
+    avatarWrap.appendChild(time)
+    avatar.src = defaultUserImage
+    avatarWrap.style.marginLeft = "8px"
+    bubbleContent.style = " padding: 0; width: 100%;"
     bubble.appendChild(bubbleContent)
-    bubble.appendChild(avatarDiv)
+    bubble.appendChild(avatarWrap)
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
     scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
