@@ -177,7 +177,7 @@ function Bubbles(container, self, options) {
     this.adaptiveCard.onExecuteAction = func
   }
 
-  this.userSays = function (text) {
+  this.userSays = function (text, hide_time = true, timestring = false) {
     var self = this;
     var bubble = document.createElement("div")
     var bubbleContent = document.createElement("span")
@@ -187,18 +187,72 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     var time = document.createElement("span")
+    time.className = "timestamp"
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
-    time.textContent = getDateDisplay()
-    time.style="word-break: normal;"
+
     avatarWrap.appendChild(avatar)
-    avatarWrap.appendChild(time)
     avatar.src = defaultUserImage
     avatarWrap.style.marginLeft = "8px"
+
+    if (!hide_time) {
+      time.textContent = !timestring ? getDateDisplay() : timestring;
+      time.style.wordBreak = "normal";
+      avatarWrap.appendChild(time);
+    }
+
     bubbleContent.style = " padding: 0; width: 100%;"
     bubble.appendChild(bubbleContent)
     bubble.appendChild(avatarWrap)
+    bubbleWrap.insertBefore(bubble, bubbleTyping)
+    containerHeight = container.offsetHeight
+    scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
+    scrollHop = scrollDifference / 200
+    var scrollBubbles = function () {
+        for (var i = 1; i <= scrollDifference / scrollHop; i++) {
+            ; (function () {
+                setTimeout(function () {
+                    bubbleWrap.scrollHeight - bubbleWrap.scrollTop > containerHeight
+                        ? (bubbleWrap.scrollTop = bubbleWrap.scrollTop + scrollHop)
+                        : false
+                }, i * 5)
+            })()
+        }
+    }()
+  }
+
+  /* Used to display past, static conversations */
+  this.chatbotSays = function (text, hide_time = true, timestring = false) {
+    var self = this;
+    var bubble = document.createElement("div")
+    var bubbleContent = document.createElement("span")
+    bubble.className = "bubble d-flex align-start say"
+    bubble.style = " background: transparent !important;"
+    bubbleContent.className = "bubble-content say bubble"
+    bubbleContent.style = "flex-grow: 0 !important; "
+    bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
+    var avatarWrap = document.createElement("div")
+    var avatar = document.createElement("img")
+    var time = document.createElement("span")
+    time.className = "timestamp"
+    avatarWrap.className = "avatar-content d-flex align-center mt-2 "
+    avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
+    avatar.className = "chat-bubbles-avatar"
+
+    avatarWrap.appendChild(avatar)
+    avatar.src = defaultBotImage
+    avatarWrap.style.marginRight = "8px"
+
+    if (!hide_time) {
+      time.textContent = !timestring ? getDateDisplay() : timestring;
+      time.style.wordBreak = "normal";
+      avatarWrap.appendChild(time);
+    }
+
+    bubble.appendChild(avatarWrap)
+    bubble.appendChild(bubbleContent)
+    
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
     scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
@@ -477,6 +531,7 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     var time = document.createElement("span")
+    time.className = "timestamp"
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
