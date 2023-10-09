@@ -1,3 +1,4 @@
 # Ignore tunneling tool
 /ngrok
 /node_modules
+.DS_Store
