@@ -186,6 +186,7 @@ function Bubbles(container, self, options) {
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
+    avatar.alt = "Chatbot Avatar"; 
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
@@ -243,6 +244,7 @@ function Bubbles(container, self, options) {
       // Create an avatar div to go along with the text bubble
       const avatarDiv = document.createElement("div")
       const avatar = document.createElement("img")
+      avatar.alt = "Chatbot Avatar"; 
       avatar.src = defaultBotImage
       avatar.className = "chat-bubbles-avatar"
       avatarDiv.className = "mt-2 align-center "
@@ -476,6 +478,7 @@ function Bubbles(container, self, options) {
     // Create the necessary timestamp and avatar div
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
+    avatar.alt = "Chatbot Avatar"; 
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
@@ -539,7 +542,7 @@ function Bubbles(container, self, options) {
       bubble.classList.remove("imagine")
       var bubbleWidthCalc = bubbleContent.offsetWidth + avatar.offsetWidth + widerBy + "px"
       bubble.style.width = reply == "" ? bubbleWidthCalc : ""
-      bubble.style.width = say.includes("<img src=")
+      bubble.style.width = say.includes("<img  alt=\"chat bubble\" src=")
         ? "50%"
         : bubble.style.width
       bubble.classList.add("say")
