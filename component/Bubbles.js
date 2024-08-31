@@ -187,12 +187,14 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     avatar.alt = "Chatbot Avatar"; 
+    avatar.ariaLabel = "Chatbot Avatar";
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
     time.style="word-break: normal;"
+    time.ariaLabel = "Message Time";
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
     avatar.src = defaultUserImage
@@ -245,6 +247,7 @@ function Bubbles(container, self, options) {
       const avatarDiv = document.createElement("div")
       const avatar = document.createElement("img")
       avatar.alt = "Chatbot Avatar"; 
+      avatar.ariaLabel = "Chatbot Avatar";
       avatar.src = defaultBotImage
       avatar.className = "chat-bubbles-avatar"
       avatarDiv.className = "mt-2 align-center "
@@ -479,12 +482,14 @@ function Bubbles(container, self, options) {
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     avatar.alt = "Chatbot Avatar"; 
+    avatar.ariaLabel = "Chatbot Avatar";
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
     time.style="word-break: normal;"
+    time.ariaLabel = "Message Time";
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
     bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") + reply
