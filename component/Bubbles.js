@@ -324,6 +324,10 @@ function Bubbles(container, self, options) {
   container.classList.add("bubble-container")
   let bubbleWrap = document.createElement("div")
   bubbleWrap.className = "bubble-wrap"
+  bubbleWrap.setAttribute("aria-live", "polite")
+  bubbleWrap.setAttribute("aria-atomic", "true")
+  bubbleWrap.setAttribute("role", "log")
+
   container.appendChild(bubbleWrap)
 
   // install user input textfield
@@ -370,6 +374,13 @@ function Bubbles(container, self, options) {
   // init typing bubble
   bubbleTyping = document.createElement("div")
   bubbleTyping.className = "bubble-typing imagine"
+
+  // Add ARIA attributes
+  bubbleTyping.setAttribute("aria-live", "polite")
+  bubbleTyping.setAttribute("aria-atomic", "false")
+  bubbleTyping.setAttribute("role", "status")
+  bubbleTyping.setAttribute("aria-label", "Bot is typing")
+
   for (dots = 0; dots < 3; dots++) {
     var dot = document.createElement("div")
     dot.className = "dot_" + dots + " dot"
@@ -496,7 +507,7 @@ function Bubbles(container, self, options) {
     bubbleContent.style = "flex-grow: 0 !important; "
     bubbleContent.className = "bubble-content say "
     bubbleContent.innerHTML = say
-    
+    bubble.setAttribute("aria-label", "New message")
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     // answer picker styles
     if (reply !== "") {
