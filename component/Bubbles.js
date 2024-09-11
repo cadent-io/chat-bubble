@@ -179,15 +179,19 @@ function Bubbles(container, self, options) {
 
   this.userSays = function (text) {
     var self = this;
-    var bubble = document.createElement("div")
-    var bubbleContent = document.createElement("span")
+    var bubble = document.createElement("section")
+    var bubbleContent = document.createElement("div")
     bubble.className = "bubble d-flex align-start reply reply-freeform say"
     bubbleContent.className = "bubble-content say"
+    // bubbleContent.setAttribute("aria-label", "New message")
+    // bubbleContent.setAttribute("tabindex", 0)
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
     avatar.alt = "Chatbot Avatar"; 
     avatar.ariaLabel = "Chatbot Avatar";
+    avatar.ariaHidden = true;
+    avatar.role="presentation";
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
@@ -195,6 +199,8 @@ function Bubbles(container, self, options) {
     time.textContent = getDateDisplay()
     time.style="word-break: normal;"
     time.ariaLabel = "Message Time";
+    time.ariaHidden = true;
+    time.role="presentation";
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
     avatar.src = defaultUserImage
@@ -202,6 +208,14 @@ function Bubbles(container, self, options) {
     bubbleContent.style = " padding: 0; width: 100%;"
     bubble.appendChild(bubbleContent)
     bubble.appendChild(avatarWrap)
+
+    // remove html tags
+    bubble.setAttribute("aria-label", "You said: " + text.replace(/<\/?[^>]+(>|$)/g, ""))
+    bubble.setAttribute("aria-role", "status")
+    bubble.setAttribute("aria-live", "polite")
+    bubble.setAttribute("aria-atomic", "true")
+    bubble.setAttribute("tabindex", "0")
+
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
     scrollDifference = bubbleWrap.scrollHeight - bubbleWrap.scrollTop
@@ -236,11 +250,11 @@ function Bubbles(container, self, options) {
     bubbleTyping.classList.remove("imagine")
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
-      const bubbleWrapper = document.createElement("div")
+      const bubbleWrapper = document.createElement("section")
       bubbleWrapper.className = "bubble d-flex flex-start "
       bubbleWrapper.style = "background: transparent; "
       const bubble = document.createElement("div")
-      const bubbleContent = document.createElement("span")
+      const bubbleContent = document.createElement("div")
       // Create a time stamp div
       const time = document.createElement("span")
       // Create an avatar div to go along with the text bubble
@@ -248,6 +262,8 @@ function Bubbles(container, self, options) {
       const avatar = document.createElement("img")
       avatar.alt = "Chatbot Avatar"; 
       avatar.ariaLabel = "Chatbot Avatar";
+      avatar.ariaHidden = true;
+      avatar.role="presentation";
       avatar.src = defaultBotImage
       avatar.className = "chat-bubbles-avatar"
       avatarDiv.className = "mt-2 align-center "
@@ -255,6 +271,8 @@ function Bubbles(container, self, options) {
       time.textContent = getDateDisplay();
       time.className = "mt-1"
       time.style="word-break: normal;"
+      time.ariaHidden = true;
+      time.role="presentation";
       avatarDiv.appendChild(avatar)
       avatarDiv.appendChild(time)
       bubble.className = "bubble say"
@@ -265,7 +283,15 @@ function Bubbles(container, self, options) {
       bubble.appendChild(bubbleContent)
       bubbleWrapper.appendChild(avatarDiv)
       bubbleWrapper.appendChild(bubble)
+
+
+      bubbleWrapper.setAttribute("aria-role", "log")
+      bubbleWrapper.setAttribute("aria-live", "polite")
+      bubbleWrapper.setAttribute("aria-atomic", "true")
+      bubbleWrapper.setAttribute("tabindex", "0")
+
       bubbleWrap.insertBefore(bubbleWrapper, bubbleTyping)
+
       self._scrollBubbles()
     }, 800)
   }
@@ -322,11 +348,18 @@ function Bubbles(container, self, options) {
 
   // set up the stage
   container.classList.add("bubble-container")
-  let bubbleWrap = document.createElement("div")
+  let bubbleWrap = document.createElement("section")
   bubbleWrap.className = "bubble-wrap"
+  bubbleWrap.id = "bubble-wrap"
+  
+  // bubbleWrap.setAttribute("aria-atomic", "true")
+
+  // bubbleWrap.setAttribute("aria-label", "Chatbot response")
+  bubbleWrap.setAttribute("aria-role", "log")
   bubbleWrap.setAttribute("aria-live", "polite")
-  bubbleWrap.setAttribute("aria-atomic", "true")
-  bubbleWrap.setAttribute("role", "log")
+  bubbleWrap.setAttribute("aria-atomic", "false")
+  bubbleWrap.setAttribute("aria-relevant", "additions")
+  bubbleWrap.setAttribute("tabindex", "0")
 
   container.appendChild(bubbleWrap)
 
@@ -487,8 +520,8 @@ function Bubbles(container, self, options) {
     var animationTime = live ? this.animationTime : 0
     var typeSpeed = live ? this.typeSpeed : 0
     // create bubble element
-    var bubble = document.createElement("div")
-    var bubbleContent = document.createElement("span")
+    var bubble = document.createElement("section")
+    var bubbleContent = document.createElement("div")
     // Create the necessary timestamp and avatar div
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
@@ -498,16 +531,28 @@ function Bubbles(container, self, options) {
     avatarWrap.className = "avatar-content d-flex align-center mt-2 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
+    avatar.ariaHidden = true;
+    avatar.role="presentation";
     time.textContent = getDateDisplay()
     time.style="word-break: normal;"
     time.ariaLabel = "Message Time";
+    time.ariaHidden = true;
+    time.role="presentation";
     avatarWrap.appendChild(avatar)
     avatarWrap.appendChild(time)
     bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") + reply
     bubbleContent.style = "flex-grow: 0 !important; "
     bubbleContent.className = "bubble-content say "
     bubbleContent.innerHTML = say
-    bubble.setAttribute("aria-label", "New message")
+    // bubbleContent.setAttribute("aria-label", "New message")
+    // bubbleContent.setAttribute("tabindex", 0)
+    
+    // bubble.setAttribute("aria-label", "Chatbot response")
+    bubble.setAttribute("aria-role", "status")
+    bubble.setAttribute("aria-live", "polite")
+    bubble.setAttribute("aria-atomic", "true")
+    bubble.setAttribute("tabindex", "0")
+
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     // answer picker styles
     if (reply !== "") {
@@ -605,8 +650,6 @@ function Bubbles(container, self, options) {
     defaultBotImage = image
   }
 }
-
-
 
 // below functions are specifically for WebPack-type project that work with import()
 
