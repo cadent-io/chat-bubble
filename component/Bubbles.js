@@ -247,14 +247,19 @@ function Bubbles(container, self, options) {
 
   this.cardTalk = function(card) {
     const self = this
+    bubbleTyping.setAttribute("aria-hidden", "true")
     bubbleTyping.classList.remove("imagine")
+    
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
       const bubbleWrapper = document.createElement("section")
+      bubbleWrapper.setAttribute("aria-hidden", "true")
       bubbleWrapper.className = "bubble d-flex flex-start "
       bubbleWrapper.style = "background: transparent; "
       const bubble = document.createElement("div")
       const bubbleContent = document.createElement("div")
+      bubble.setAttribute("aria-hidden", "true")
+      bubbleContent.setAttribute("aria-hidden", "true")
       // Create a time stamp div
       const time = document.createElement("span")
       // Create an avatar div to go along with the text bubble
@@ -285,11 +290,15 @@ function Bubbles(container, self, options) {
       bubbleWrapper.appendChild(bubble)
 
       // remove html
-      bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
-      bubbleWrapper.setAttribute("aria-role", "log")
-      bubbleWrapper.setAttribute("aria-live", "polite")
-      bubbleWrapper.setAttribute("aria-atomic", "true")
-      bubbleWrapper.setAttribute("tabindex", "0")
+      if (card.body[0].text !== "Does this answer your question?"){ 
+        bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
+        bubbleWrapper.setAttribute("aria-role", "log")
+        bubbleWrapper.setAttribute("aria-live", "polite")
+        bubbleWrapper.setAttribute("aria-atomic", "true")
+        bubbleWrapper.setAttribute("tabindex", "0")
+      }else{
+        bubbleWrapper.setAttribute("aria-hidden", "true")
+      }
 
       bubbleWrap.insertBefore(bubbleWrapper, bubbleTyping)
 
@@ -413,7 +422,7 @@ function Bubbles(container, self, options) {
   bubbleTyping.setAttribute("aria-live", "polite")
   bubbleTyping.setAttribute("aria-atomic", "true")
   bubbleTyping.setAttribute("role", "log")
-  bubbleTyping.setAttribute("aria-label", "Bot is typing")
+  bubbleTyping.setAttribute("aria-hidden", "true")
 
   for (dots = 0; dots < 3; dots++) {
     var dot = document.createElement("div")
@@ -548,7 +557,7 @@ function Bubbles(container, self, options) {
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
     
-    bubble.setAttribute("aria-label", "Chatbot said " + say.replace(/<\/?[^>]+(>|$)/g, ""))
+    bubble.setAttribute("aria-label", "Chatbot said " + say.replace(/<\/?[^>]+(>|$)/g, "") + "\nChatbot said  Does this answer your question?")
     bubble.setAttribute("aria-role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
