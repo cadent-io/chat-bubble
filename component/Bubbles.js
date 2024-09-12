@@ -286,7 +286,7 @@ function Bubbles(container, self, options) {
 
       // remove html
       console.log(card.body[0].text)
-      if (card.body[0].text !== "Does this answer your question?"){ 
+      if (card.body[0].text != "Does this answer your question?"){ 
       bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
       bubbleWrapper.setAttribute("aria-role", "log")
       bubbleWrapper.setAttribute("aria-live", "polite")
