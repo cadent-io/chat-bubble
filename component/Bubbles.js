@@ -422,7 +422,7 @@ function Bubbles(container, self, options) {
   bubbleTyping.setAttribute("aria-live", "polite")
   bubbleTyping.setAttribute("aria-atomic", "true")
   bubbleTyping.setAttribute("role", "log")
-  bubbleTyping.setAttribute("aria-label", "Bot is typing")
+  bubbleTyping.setAttribute("aria-hidden", "true")
 
   for (dots = 0; dots < 3; dots++) {
     var dot = document.createElement("div")
