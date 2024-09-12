@@ -210,14 +210,11 @@ function Bubbles(container, self, options) {
     bubble.appendChild(avatarWrap)
 
     // remove html tags
-
-    
-    bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card) + "\n Does this answer your question?")
-    bubbleWrapper.setAttribute("aria-role", "log")
-    bubbleWrapper.setAttribute("aria-live", "polite")
-    bubbleWrapper.setAttribute("aria-atomic", "true")
-    bubbleWrapper.setAttribute("tabindex", "0")
-
+    bubble.setAttribute("aria-label", "You said: " + text.replace(/<\/?[^>]+(>|$)/g, ""))
+    bubble.setAttribute("aria-role", "log")
+    bubble.setAttribute("aria-live", "polite")
+    bubble.setAttribute("aria-atomic", "true")
+    bubble.setAttribute("tabindex", "0")
 
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
