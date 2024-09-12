@@ -277,6 +277,7 @@ function Bubbles(container, self, options) {
       avatarDiv.appendChild(time)
       bubble.className = "bubble say"
       bubbleContent.className = "webChatInnerContainer"
+      bubbleContent.setAttribute("aria-hidden", "true")
       self.adaptiveCard.parse(card)
       const renderedCard = self.adaptiveCard.render()
       bubbleContent.appendChild(renderedCard)
