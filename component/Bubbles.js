@@ -247,10 +247,13 @@ function Bubbles(container, self, options) {
 
   this.cardTalk = function(card) {
     const self = this
+    bubbleTyping.setAttribute("aria-hidden", "true")
     bubbleTyping.classList.remove("imagine")
+    
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
       const bubbleWrapper = document.createElement("section")
+      bubbleWrapper.setAttribute("aria-hidden", "true")
       bubbleWrapper.className = "bubble d-flex flex-start "
       bubbleWrapper.style = "background: transparent; "
       const bubble = document.createElement("div")
@@ -277,7 +280,6 @@ function Bubbles(container, self, options) {
       avatarDiv.appendChild(time)
       bubble.className = "bubble say"
       bubbleContent.className = "webChatInnerContainer"
-      bubbleContent.setAttribute("aria-hidden", "true")
       self.adaptiveCard.parse(card)
       const renderedCard = self.adaptiveCard.render()
       bubbleContent.appendChild(renderedCard)
