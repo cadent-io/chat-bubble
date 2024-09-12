@@ -285,6 +285,7 @@ function Bubbles(container, self, options) {
       bubbleWrapper.appendChild(bubble)
 
       // remove html
+      console.log(card)
       if (card["body"][0]["text"] !== "Does this answer your question?"){ 
       bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
       bubbleWrapper.setAttribute("aria-role", "log")
