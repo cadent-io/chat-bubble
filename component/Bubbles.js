@@ -210,14 +210,14 @@ function Bubbles(container, self, options) {
     bubble.appendChild(avatarWrap)
 
     // remove html tags
-    console.log(card["body"][0]["text"] )
-    if (card["body"][0]["text"] !== "Does this answer your question?"){ 
-      bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card) + "\n Does this answer your question?")
-      bubbleWrapper.setAttribute("aria-role", "log")
-      bubbleWrapper.setAttribute("aria-live", "polite")
-      bubbleWrapper.setAttribute("aria-atomic", "true")
-      bubbleWrapper.setAttribute("tabindex", "0")
-    }
+
+    
+    bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card) + "\n Does this answer your question?")
+    bubbleWrapper.setAttribute("aria-role", "log")
+    bubbleWrapper.setAttribute("aria-live", "polite")
+    bubbleWrapper.setAttribute("aria-atomic", "true")
+    bubbleWrapper.setAttribute("tabindex", "0")
+
 
     bubbleWrap.insertBefore(bubble, bubbleTyping)
     containerHeight = container.offsetHeight
@@ -288,11 +288,13 @@ function Bubbles(container, self, options) {
       bubbleWrapper.appendChild(bubble)
 
       // remove html
+      if (card["body"][0]["text"] !== "Does this answer your question?"){ 
       bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
       bubbleWrapper.setAttribute("aria-role", "log")
       bubbleWrapper.setAttribute("aria-live", "polite")
       bubbleWrapper.setAttribute("aria-atomic", "true")
       bubbleWrapper.setAttribute("tabindex", "0")
+      }
 
       bubbleWrap.insertBefore(bubbleWrapper, bubbleTyping)
 
