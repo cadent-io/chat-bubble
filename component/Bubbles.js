@@ -211,7 +211,7 @@ function Bubbles(container, self, options) {
 
     // remove html tags
     bubble.setAttribute("aria-label", "You said: " + text.replace(/<\/?[^>]+(>|$)/g, ""))
-    bubble.setAttribute("aria-role", "status")
+    bubble.setAttribute("aria-role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
     bubble.setAttribute("tabindex", "0")
@@ -284,7 +284,8 @@ function Bubbles(container, self, options) {
       bubbleWrapper.appendChild(avatarDiv)
       bubbleWrapper.appendChild(bubble)
 
-
+      // remove html
+      bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
       bubbleWrapper.setAttribute("aria-role", "log")
       bubbleWrapper.setAttribute("aria-live", "polite")
       bubbleWrapper.setAttribute("aria-atomic", "true")
@@ -351,15 +352,15 @@ function Bubbles(container, self, options) {
   let bubbleWrap = document.createElement("section")
   bubbleWrap.className = "bubble-wrap"
   bubbleWrap.id = "bubble-wrap"
-  
+
   // bubbleWrap.setAttribute("aria-atomic", "true")
 
-  // bubbleWrap.setAttribute("aria-label", "Chatbot response")
+  // bubbleWrap.setAttribute("aria-label", "Chatbot said")
   bubbleWrap.setAttribute("aria-role", "log")
   bubbleWrap.setAttribute("aria-live", "polite")
   bubbleWrap.setAttribute("aria-atomic", "false")
   bubbleWrap.setAttribute("aria-relevant", "additions")
-  bubbleWrap.setAttribute("tabindex", "0")
+  bubbleWrap.setAttribute("tabindex", "-1")
 
   container.appendChild(bubbleWrap)
 
@@ -410,8 +411,8 @@ function Bubbles(container, self, options) {
 
   // Add ARIA attributes
   bubbleTyping.setAttribute("aria-live", "polite")
-  bubbleTyping.setAttribute("aria-atomic", "false")
-  bubbleTyping.setAttribute("role", "status")
+  bubbleTyping.setAttribute("aria-atomic", "true")
+  bubbleTyping.setAttribute("role", "log")
   bubbleTyping.setAttribute("aria-label", "Bot is typing")
 
   for (dots = 0; dots < 3; dots++) {
@@ -547,8 +548,8 @@ function Bubbles(container, self, options) {
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
     
-    // bubble.setAttribute("aria-label", "Chatbot response")
-    bubble.setAttribute("aria-role", "status")
+    bubble.setAttribute("aria-label", "Chatbot said " + say)
+    bubble.setAttribute("aria-role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
     bubble.setAttribute("tabindex", "0")
@@ -679,6 +680,31 @@ function prepHTML(options) {
   appendCSS(relative_path + "component/styles/says.css")
   appendCSS(relative_path + "component/styles/setup.css")
   appendCSS(relative_path + "component/styles/typing.css")
+}
+
+function adaptiveCardToText(card) {
+  let result = '';
+
+  // Extract text from the "body" array
+  if (card.body && Array.isArray(card.body)) {
+      card.body.forEach(element => {
+          if (element.type === 'TextBlock' && element.text) {
+              result += element.text + '\n';
+          }
+      });
+  }
+
+  // Extract actions from the "actions" array
+  if (card.actions && Array.isArray(card.actions)) {
+      result += '\nActions:\n';
+      card.actions.forEach((action, index) => {
+          if (action.title) {
+              result += `${index + 1}. ${action.title}\n`;
+          }
+      });
+  }
+
+  return result.trim(); // Remove extra trailing newlines
 }
 
 // exports for es6
