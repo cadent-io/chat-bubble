@@ -296,8 +296,6 @@ function Bubbles(container, self, options) {
         bubbleWrapper.setAttribute("aria-live", "polite")
         bubbleWrapper.setAttribute("aria-atomic", "true")
         bubbleWrapper.setAttribute("tabindex", "0")
-      }else{
-        bubbleWrapper.setAttribute("aria-hidden", "true")
       }
 
       bubbleWrap.insertBefore(bubbleWrapper, bubbleTyping)
