@@ -253,13 +253,10 @@ function Bubbles(container, self, options) {
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
       const bubbleWrapper = document.createElement("section")
-      bubbleWrapper.setAttribute("aria-hidden", "true")
       bubbleWrapper.className = "bubble d-flex flex-start "
       bubbleWrapper.style = "background: transparent; "
       const bubble = document.createElement("div")
       const bubbleContent = document.createElement("div")
-      bubble.setAttribute("aria-hidden", "true")
-      bubbleContent.setAttribute("aria-hidden", "true")
       // Create a time stamp div
       const time = document.createElement("span")
       // Create an avatar div to go along with the text bubble
