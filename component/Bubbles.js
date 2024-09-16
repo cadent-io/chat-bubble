@@ -557,7 +557,7 @@ function Bubbles(container, self, options) {
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
     
-    bubble.setAttribute("aria-label", "Chatbot said " + say.replace(/<\/?[^>]+(>|$)/g, "") + "\nChatbot said  Does this answer your question?")
+    bubble.setAttribute("aria-label", "Chatbot said " + say.replace(/<\/?[^>]+(>|$)/g, ""))
     bubble.setAttribute("aria-role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
