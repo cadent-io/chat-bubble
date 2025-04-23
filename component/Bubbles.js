@@ -193,7 +193,7 @@ function Bubbles(container, self, options) {
     avatar.ariaHidden = true;
     avatar.role="presentation";
     var time = document.createElement("span")
-    avatarWrap.className = "avatar-content d-flex align-center mt-2 "
+    avatarWrap.className = "avatar-content d-flex align-center mt-0 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
     time.textContent = getDateDisplay()
@@ -268,7 +268,7 @@ function Bubbles(container, self, options) {
       avatar.role="presentation";
       avatar.src = defaultBotImage
       avatar.className = "chat-bubbles-avatar"
-      avatarDiv.className = "mt-2 align-center "
+      avatarDiv.className = "mt-0 align-center "
       avatarDiv.style="display: flex; flex-direction: column; flex-grow: 0 !important; margin-right: 8px"
       time.textContent = getDateDisplay();
       time.className = "mt-1"
@@ -277,7 +277,7 @@ function Bubbles(container, self, options) {
       time.role="presentation";
       avatarDiv.appendChild(avatar)
       avatarDiv.appendChild(time)
-      bubble.className = "bubble say"
+      bubble.className = "bubble say mt-2"
       bubbleContent.className = "webChatInnerContainer"
       self.adaptiveCard.parse(card)
       const renderedCard = self.adaptiveCard.render()
@@ -533,7 +533,7 @@ function Bubbles(container, self, options) {
     avatar.alt = "Chatbot Avatar"; 
     avatar.ariaLabel = "Chatbot Avatar";
     var time = document.createElement("span")
-    avatarWrap.className = "avatar-content d-flex align-center mt-2 "
+    avatarWrap.className = "avatar-content d-flex align-center mt-0 "
     avatarWrap.style = "display: flex; flex-direction: column; flex-grow: 0 !important; "
     avatar.className = "chat-bubbles-avatar"
     avatar.ariaHidden = true;
