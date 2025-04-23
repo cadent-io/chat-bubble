@@ -182,7 +182,7 @@ function Bubbles(container, self, options) {
     var bubble = document.createElement("section")
     var bubbleContent = document.createElement("div")
     bubble.className = "bubble d-flex align-start reply reply-freeform say"
-    bubbleContent.className = "bubble-content say"
+    bubbleContent.className = "bubble-content say mt-2 "
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
@@ -547,7 +547,7 @@ function Bubbles(container, self, options) {
     avatarWrap.appendChild(time)
     bubble.className = "bubble imagine d-flex align-start " + (!live ? " history " : "") + reply
     bubbleContent.style = "flex-grow: 0 !important; "
-    bubbleContent.className = "bubble-content say "
+    bubbleContent.className = "bubble-content say mt-2 "
     bubbleContent.innerHTML = say
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
