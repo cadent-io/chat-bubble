@@ -22,7 +22,7 @@ function Bubbles(container, self, options) {
   const AdaptiveCards = require('adaptivecards')
   // So adaptive cards can process markdown
   window["markdownit"] = require('markdown-it')
-   
+
 
   // AdaptiveCard Microsoft library init...
   this.adaptiveCard = new AdaptiveCards.AdaptiveCard()
@@ -188,7 +188,7 @@ function Bubbles(container, self, options) {
     bubbleContent.innerHTML = '<span class="bubble-button bubble-pick" style="animation-delay: 0ms;">'+text+'</span>'
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
-    avatar.alt = "Chatbot Avatar"; 
+    avatar.alt = "Chatbot Avatar";
     avatar.ariaLabel = "Chatbot Avatar";
     avatar.ariaHidden = true;
     avatar.role="presentation";
@@ -211,7 +211,7 @@ function Bubbles(container, self, options) {
 
     // remove html tags
     bubble.setAttribute("aria-label", "You said: " + text.replace(/<\/?[^>]+(>|$)/g, ""))
-    bubble.setAttribute("aria-role", "log")
+    bubble.setAttribute("role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
     bubble.setAttribute("tabindex", "0")
@@ -232,7 +232,7 @@ function Bubbles(container, self, options) {
         }
     }()
   }
-  
+
   this.botSaysAndGetReply = function(text, reply) {
     this.talk({ ice: { says: text, reply } })
   }
@@ -240,8 +240,8 @@ function Bubbles(container, self, options) {
   var getDateDisplay =  function() {
     var hours = new Date().getHours()
     var minutes = new Date().getMinutes()
-    hours = hours > 9 ? hours : "0" + hours 
-    minutes = minutes > 9 ? minutes : "0" + minutes 
+    hours = hours > 9 ? hours : "0" + hours
+    minutes = minutes > 9 ? minutes : "0" + minutes
     return hours + ":" + minutes
   }
 
@@ -249,7 +249,7 @@ function Bubbles(container, self, options) {
     const self = this
     bubbleTyping.setAttribute("aria-hidden", "true")
     bubbleTyping.classList.remove("imagine")
-    
+
     setTimeout(function() {
       bubbleTyping.classList.add("imagine")
       const bubbleWrapper = document.createElement("section")
@@ -262,7 +262,7 @@ function Bubbles(container, self, options) {
       // Create an avatar div to go along with the text bubble
       const avatarDiv = document.createElement("div")
       const avatar = document.createElement("img")
-      avatar.alt = "Chatbot Avatar"; 
+      avatar.alt = "Chatbot Avatar";
       avatar.ariaLabel = "Chatbot Avatar";
       avatar.ariaHidden = true;
       avatar.role="presentation";
@@ -287,9 +287,9 @@ function Bubbles(container, self, options) {
       bubbleWrapper.appendChild(bubble)
 
       // remove html
-      if (card.body[0].text !== "Does this answer your question?"){ 
+      if (card.body[0].text !== "Does this answer your question?"){
         bubbleWrapper.setAttribute("aria-label", "Chatbot said: " + adaptiveCardToText(card))
-        bubbleWrapper.setAttribute("aria-role", "log")
+        bubbleWrapper.setAttribute("role", "log")
         bubbleWrapper.setAttribute("aria-live", "polite")
         bubbleWrapper.setAttribute("aria-atomic", "true")
         bubbleWrapper.setAttribute("tabindex", "0")
@@ -360,7 +360,7 @@ function Bubbles(container, self, options) {
   // bubbleWrap.setAttribute("aria-atomic", "true")
 
   // bubbleWrap.setAttribute("aria-label", "Chatbot said")
-  bubbleWrap.setAttribute("aria-role", "log")
+  bubbleWrap.setAttribute("role", "log")
   bubbleWrap.setAttribute("aria-live", "polite")
   bubbleWrap.setAttribute("aria-atomic", "false")
   bubbleWrap.setAttribute("aria-relevant", "additions")
@@ -469,7 +469,7 @@ function Bubbles(container, self, options) {
 
   // navigate "answers"
   this.answer = function(key, content) {
-    
+
     var func = function(key) {
       typeof window[key] === "function" ? window[key]() : false
     }
@@ -530,7 +530,7 @@ function Bubbles(container, self, options) {
     // Create the necessary timestamp and avatar div
     var avatarWrap = document.createElement("div")
     var avatar = document.createElement("img")
-    avatar.alt = "Chatbot Avatar"; 
+    avatar.alt = "Chatbot Avatar";
     avatar.ariaLabel = "Chatbot Avatar";
     var time = document.createElement("span")
     avatarWrap.className = "avatar-content d-flex align-center mt-0 "
@@ -551,9 +551,9 @@ function Bubbles(container, self, options) {
     bubbleContent.innerHTML = say
     // bubbleContent.setAttribute("aria-label", "New message")
     // bubbleContent.setAttribute("tabindex", 0)
-    
+
     bubble.setAttribute("aria-label", "Chatbot said " + say.replace(/<\/?[^>]+(>|$)/g, ""))
-    bubble.setAttribute("aria-role", "log")
+    bubble.setAttribute("role", "log")
     bubble.setAttribute("aria-live", "polite")
     bubble.setAttribute("aria-atomic", "true")
     bubble.setAttribute("tabindex", "0")
